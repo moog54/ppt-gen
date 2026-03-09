@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ppt-gen パターンカタログ</title>
+<style>
+  :root {
+    --accent: #0070C0;
+    --text: #1A1A1A;
+    --textLight: #666666;
+    --bg: #ffffff;
+    --bgLight: #F5F5F5;
+    --border: #D9D9D9;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: "Meiryo UI", "Segoe UI", sans-serif; background: var(--bgLight); color: var(--text); }
+  header {
+    background: var(--accent); color: white; padding: 24px 32px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  header h1 { font-size: 22px; font-weight: bold; }
+  header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .filter-bar {
+    background: white; border-bottom: 1px solid var(--border);
+    padding: 12px 32px; display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .filter-bar button {
+    background: var(--bgLight); border: 1px solid var(--border);
+    padding: 6px 16px; border-radius: 20px; cursor: pointer;
+    font-size: 13px; color: var(--textLight); transition: all 0.2s;
+  }
+  .filter-bar button:hover, .filter-bar button.active {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; padding: 24px 32px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+  .card {
+    background: white; border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,112,192,0.12); }
+  .card.hidden { display: none; }
+  .thumbnail { background: var(--bgLight); height: 200px; overflow: hidden; }
+  .thumbnail img { width: 100%; height: 100%; object-fit: contain; }
+  .no-img {
+    height: 100%; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; color: var(--textLight); text-align: center; line-height: 1.8;
+  }
+  .card-body { padding: 16px; }
+  .category-badge {
+    display: inline-block; background: var(--accent); color: white;
+    font-size: 11px; padding: 2px 10px; border-radius: 10px; margin-bottom: 8px;
+  }
+  .card-body h3 { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+  .description { font-size: 13px; color: var(--textLight); margin-bottom: 6px; line-height: 1.5; }
+  .usage { font-size: 12px; color: #999; margin-bottom: 10px; }
+  .usage span { font-weight: bold; color: var(--textLight); }
+  code { font-size: 11px; background: var(--bgLight); padding: 3px 8px; border-radius: 4px; color: var(--accent); }
+  footer { text-align: center; padding: 24px; color: var(--textLight); font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>ppt-gen パターンカタログ</h1>
+    <p>汎用PPTXスライド生成ツール — 全 13 パターン</p>
+  </div>
+</header>
+<div class="filter-bar">
+  <button onclick="filterCat('')" data-cat="" class="active">すべて</button>
+<button onclick="filterCat('データ')" data-cat="データ">データ</button>
+<button onclick="filterCat('フロー')" data-cat="フロー">フロー</button>
+<button onclick="filterCat('強調')" data-cat="強調">強調</button>
+<button onclick="filterCat('本文')" data-cat="本文">本文</button>
+<button onclick="filterCat('構造')" data-cat="構造">構造</button>
+<button onclick="filterCat('表紙')" data-cat="表紙">表紙</button>
+
+</div>
+<div class="grid" id="grid">
+  
+        <div class="card" data-category="構造">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">構造</div>
+            <h3>agenda</h3>
+            <p class="description">アジェンダ（目次）スライド（現在地ハイライト付き）</p>
+            <p class="usage"><span>用途:</span> プレゼン冒頭の目次、セクション開始時の案内</p>
+            <code>agenda.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="本文">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">本文</div>
+            <h3>body_1col</h3>
+            <p class="description">1カラム本文レイアウト（タイトル＋箇条書き）</p>
+            <p class="usage"><span>用途:</span> 説明スライド、方針発表、シングルメッセージ</p>
+            <code>body_1col.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="本文">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">本文</div>
+            <h3>body_2col</h3>
+            <p class="description">2カラム本文レイアウト（左右に内容を並列配置）</p>
+            <p class="usage"><span>用途:</span> 比較説明、Before/After、2トピック並列</p>
+            <code>body_2col.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="本文">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">本文</div>
+            <h3>body_3col</h3>
+            <p class="description">3カラム本文レイアウト（3つのポイントを並列配置）</p>
+            <p class="usage"><span>用途:</span> 3つの施策・戦略軸・特徴の並列説明</p>
+            <code>body_3col.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="表紙">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">表紙</div>
+            <h3>closing</h3>
+            <p class="description">最終スライド（Thank you / 次のステップ）</p>
+            <p class="usage"><span>用途:</span> プレゼン締め、連絡先、次のアクション提示</p>
+            <code>closing.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="表紙">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">表紙</div>
+            <h3>cover_basic</h3>
+            <p class="description">シンプルなカラー背景の表紙スライド</p>
+            <p class="usage"><span>用途:</span> プレゼン開始、報告書表紙、提案書表紙</p>
+            <code>cover_basic.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="表紙">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">表紙</div>
+            <h3>cover_section</h3>
+            <p class="description">セクション区切りスライド（番号付き左帯）</p>
+            <p class="usage"><span>用途:</span> 章・セクションの開始、アジェンダ区切り</p>
+            <code>cover_section.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="データ">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">データ</div>
+            <h3>data_comparison</h3>
+            <p class="description">左右2列比較表（メリット/デメリット、現状/目標など）</p>
+            <p class="usage"><span>用途:</span> 比較分析、課題と施策、現状と目標</p>
+            <code>data_comparison.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="データ">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">データ</div>
+            <h3>data_kpi</h3>
+            <p class="description">KPI数値カードを横並びに表示するスライド</p>
+            <p class="usage"><span>用途:</span> 業績サマリー、KPIダッシュボード、数値報告</p>
+            <code>data_kpi.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="データ">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">データ</div>
+            <h3>data_table</h3>
+            <p class="description">図形ベースのデータテーブル（pptx native table 禁止）</p>
+            <p class="usage"><span>用途:</span> 一覧表、データ比較、スケジュール表</p>
+            <code>data_table.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="フロー">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">フロー</div>
+            <h3>flow_process</h3>
+            <p class="description">横並びプロセスフロー（矢印付き箱）</p>
+            <p class="usage"><span>用途:</span> 業務フロー、プロセス説明、ステップ解説</p>
+            <code>flow_process.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="フロー">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">フロー</div>
+            <h3>flow_timeline</h3>
+            <p class="description">横タイムライン（日時付きマイルストーン）</p>
+            <p class="usage"><span>用途:</span> プロジェクト計画、ロードマップ、スケジュール</p>
+            <code>flow_timeline.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="強調">
+          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+          <div class="card-body">
+            <div class="category-badge">強調</div>
+            <h3>quote</h3>
+            <p class="description">引用・インサイト強調スライド</p>
+            <p class="usage"><span>用途:</span> キーメッセージ強調、インタビュー引用、重要な洞察</p>
+            <code>quote.py</code>
+          </div>
+        </div>
+</div>
+<footer>ppt-gen &copy; 2026 — <code>tools/gen_catalog.py</code> で再生成</footer>
+<script>
+  function filterCat(cat) {
+    document.querySelectorAll('.filter-bar button').forEach(b => {
+      b.classList.toggle('active', b.dataset.cat === cat);
+    });
+    document.querySelectorAll('.card').forEach(card => {
+      if (!cat || card.dataset.category === cat) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+</script>
+</body>
+</html>

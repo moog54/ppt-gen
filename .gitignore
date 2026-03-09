@@ -1,0 +1,8 @@
+output/
+catalog/images/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+*.tmp
+catalog/catalog_tmp/
