@@ -3,6 +3,7 @@
 カテゴリ: データ
 説明: KPI数値カードを横並びに表示するスライド
 用途: 業績サマリー、KPIダッシュボード、数値報告
+ドキュメント: ドアノッカー, 定例報告, ステアリングコミッティ, ビジネスケース, エグゼクティブブリーフィング, 戦略提言
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

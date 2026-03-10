@@ -21,6 +21,11 @@
   }
   header h1 { font-size: 22px; font-weight: bold; }
   header p { font-size: 13px; opacity: 0.85; margin-top: 4px; }
+  .section-title {
+    font-size: 18px; font-weight: bold; padding: 24px 32px 8px;
+    max-width: 1400px; margin: 0 auto; color: var(--text);
+    border-bottom: 2px solid var(--accent); margin-bottom: 0;
+  }
   .filter-bar {
     background: white; border-bottom: 1px solid var(--border);
     padding: 12px 32px; display: flex; gap: 8px; flex-wrap: wrap;
@@ -38,13 +43,22 @@
     gap: 20px; padding: 24px 32px;
     max-width: 1400px; margin: 0 auto;
   }
-  @media (max-width: 1100px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
-  .card {
+  .theme-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 20px; padding: 16px 32px 32px;
+    max-width: 1400px; margin: 0 auto;
+  }
+  @media (max-width: 1100px) {
+    .grid, .theme-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .grid, .theme-grid { grid-template-columns: 1fr; }
+  }
+  .card, .theme-card {
     background: white; border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; transition: transform 0.2s, box-shadow 0.2s;
   }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,112,192,0.12); }
+  .card:hover, .theme-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,112,192,0.12); }
   .card.hidden { display: none; }
   .thumbnail { background: var(--bgLight); height: 200px; overflow: hidden; }
   .thumbnail img { width: 100%; height: 100%; object-fit: contain; }
@@ -52,16 +66,21 @@
     height: 100%; display: flex; align-items: center; justify-content: center;
     font-size: 12px; color: var(--textLight); text-align: center; line-height: 1.8;
   }
-  .card-body { padding: 16px; }
+  .swatches { display: flex; gap: 0; }
+  .swatch { flex: 1; height: 12px; }
+  .card-body, .theme-card .card-body { padding: 16px; }
   .category-badge {
     display: inline-block; background: var(--accent); color: white;
     font-size: 11px; padding: 2px 10px; border-radius: 10px; margin-bottom: 8px;
   }
-  .card-body h3 { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
-  .description { font-size: 13px; color: var(--textLight); margin-bottom: 6px; line-height: 1.5; }
+  .card-body h3, .theme-card h3 { font-size: 15px; font-weight: bold; margin-bottom: 6px; }
+  .description { font-size: 13px; color: var(--textLight); margin-bottom: 4px; line-height: 1.5; }
   .usage { font-size: 12px; color: #999; margin-bottom: 10px; }
   .usage span { font-weight: bold; color: var(--textLight); }
-  code { font-size: 11px; background: var(--bgLight); padding: 3px 8px; border-radius: 4px; color: var(--accent); }
+  code { font-size: 11px; background: var(--bgLight); padding: 3px 8px; border-radius: 4px; color: var(--accent); display: inline-block; margin-top: 4px; }
+  .doc-tags { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+  .doc-tag { font-size: 10px; background: #EFF4FB; color: #1A3C6E; border: 1px solid #C0D0E8; padding: 2px 7px; border-radius: 10px; }
+  .filter-label { font-size: 11px; font-weight: bold; color: var(--textLight); margin-right: 4px; white-space: nowrap; align-self: center; }
   footer { text-align: center; padding: 24px; color: var(--textLight); font-size: 12px; }
 </style>
 </head>
@@ -69,11 +88,202 @@
 <header>
   <div>
     <h1>ppt-gen パターンカタログ</h1>
-    <p>汎用PPTXスライド生成ツール — 全 13 パターン</p>
+    <p>汎用PPTXスライド生成ツール — 6 テーマ / 19 パターン</p>
   </div>
 </header>
+
+<div class="section-title" style="padding-top:28px">テーマ一覧</div>
+<div class="theme-grid">
+  
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_default.png" alt="default"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#0070C0" title="accent #0070C0"></span>
+            <span class="swatch" style="background:#00B050" title="accent2 #00B050"></span>
+            <span class="swatch" style="background:#FF6B00" title="accent3 #FF6B00"></span>
+            <span class="swatch" style="background:#EFF4FB;border:1px solid #ccc" title="rowAlt #EFF4FB"></span>
+          </div>
+          <div class="card-body">
+            <h3>default</h3>
+            <p class="description">企業ブルー</p>
+            <p class="usage">汎用・デフォルト</p>
+            <code>SlideBuilder(theme="default")</code>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_accenture.png" alt="accenture"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#A100FF" title="accent #A100FF"></span>
+            <span class="swatch" style="background:#7300B3" title="accent2 #7300B3"></span>
+            <span class="swatch" style="background:#FF6B00" title="accent3 #FF6B00"></span>
+            <span class="swatch" style="background:#F5E6FF;border:1px solid #ccc" title="rowAlt #F5E6FF"></span>
+          </div>
+          <div class="card-body">
+            <h3>accenture</h3>
+            <p class="description">アクセンチュアパープル</p>
+            <p class="usage">コンサルティング・提案書</p>
+            <code>SlideBuilder(theme="accenture")</code>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_navy.png" alt="navy"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#1A3C6E" title="accent #1A3C6E"></span>
+            <span class="swatch" style="background:#2E6DB4" title="accent2 #2E6DB4"></span>
+            <span class="swatch" style="background:#C8A951" title="accent3 #C8A951"></span>
+            <span class="swatch" style="background:#EBF0F8;border:1px solid #ccc" title="rowAlt #EBF0F8"></span>
+          </div>
+          <div class="card-body">
+            <h3>navy</h3>
+            <p class="description">ネイビー</p>
+            <p class="usage">重厚感・金融・官公庁</p>
+            <code>SlideBuilder(theme="navy")</code>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_green.png" alt="green"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#00875A" title="accent #00875A"></span>
+            <span class="swatch" style="background:#005C3C" title="accent2 #005C3C"></span>
+            <span class="swatch" style="background:#F4A100" title="accent3 #F4A100"></span>
+            <span class="swatch" style="background:#E6F5EF;border:1px solid #ccc" title="rowAlt #E6F5EF"></span>
+          </div>
+          <div class="card-body">
+            <h3>green</h3>
+            <p class="description">グリーン</p>
+            <p class="usage">ESG・サステナビリティ</p>
+            <code>SlideBuilder(theme="green")</code>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_warm.png" alt="warm"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#C55A11" title="accent #C55A11"></span>
+            <span class="swatch" style="background:#843D0B" title="accent2 #843D0B"></span>
+            <span class="swatch" style="background:#F4C430" title="accent3 #F4C430"></span>
+            <span class="swatch" style="background:#FDF0E6;border:1px solid #ccc" title="rowAlt #FDF0E6"></span>
+          </div>
+          <div class="card-body">
+            <h3>warm</h3>
+            <p class="description">ウォームオレンジ</p>
+            <p class="usage">エネルギー・製造・スタートアップ</p>
+            <code>SlideBuilder(theme="warm")</code>
+          </div>
+        </div>
+        <div class="theme-card">
+          <div class="thumbnail"><img src="images/theme_mckinsey.png" alt="mckinsey"></div>
+          <div class="swatches">
+            <span class="swatch" style="background:#002F6C" title="accent #002F6C"></span>
+            <span class="swatch" style="background:#0060A9" title="accent2 #0060A9"></span>
+            <span class="swatch" style="background:#C8A951" title="accent3 #C8A951"></span>
+            <span class="swatch" style="background:#E8EDF5;border:1px solid #ccc" title="rowAlt #E8EDF5"></span>
+          </div>
+          <div class="card-body">
+            <h3>mckinsey</h3>
+            <p class="description">マッキンゼー濃紺</p>
+            <p class="usage">戦略コンサル・経営報告</p>
+            <code>SlideBuilder(theme="mckinsey")</code>
+          </div>
+        </div>
+</div>
+
+
+<div class="section-title">テキストスタイル一覧</div>
+<div style="max-width:1400px;margin:0 auto;padding:16px 32px 32px;display:grid;grid-template-columns:1fr 1fr;gap:24px">
+  <div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;background:white;border:1px solid #D9D9D9;border-radius:8px;overflow:hidden">
+      <thead>
+        <tr style="background:#0070C0;color:white">
+          <th style="padding:8px 12px;text-align:left">スタイル名</th>
+          <th style="padding:8px 12px;text-align:left">プレビュー</th>
+          <th style="padding:8px 12px;text-align:left">サイズ</th>
+          <th style="padding:8px 12px;text-align:left">太字</th>
+          <th style="padding:8px 12px;text-align:left">デフォルト色</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>heading</code></td>
+          <td style="font-size:24px;font-weight:bold;line-height:1.2"
+              title="heading">Aa あア</td>
+          <td>24pt</td>
+          <td>Bold</td>
+          <td><code style="font-size:10px">text</code></td>
+        </tr>
+        <tr>
+          <td><code>subheading</code></td>
+          <td style="font-size:18px;font-weight:bold;line-height:1.2"
+              title="subheading">Aa あア</td>
+          <td>18pt</td>
+          <td>Bold</td>
+          <td><code style="font-size:10px">text</code></td>
+        </tr>
+        <tr>
+          <td><code>body</code></td>
+          <td style="font-size:14px;font-weight:normal;line-height:1.2"
+              title="body">Aa あア</td>
+          <td>14pt</td>
+          <td>—</td>
+          <td><code style="font-size:10px">text</code></td>
+        </tr>
+        <tr>
+          <td><code>small</code></td>
+          <td style="font-size:11px;font-weight:normal;line-height:1.2"
+              title="small">Aa あア</td>
+          <td>11pt</td>
+          <td>—</td>
+          <td><code style="font-size:10px">textLight</code></td>
+        </tr>
+        <tr>
+          <td><code>caption</code></td>
+          <td style="font-size:10px;font-weight:normal;line-height:1.2"
+              title="caption">Aa あア</td>
+          <td>10pt</td>
+          <td>—</td>
+          <td><code style="font-size:10px">textMuted</code></td>
+        </tr>
+        <tr>
+          <td><code>kpi</code></td>
+          <td style="font-size:40px;font-weight:bold;line-height:1.2"
+              title="kpi">Aa あア</td>
+          <td>40pt</td>
+          <td>Bold</td>
+          <td><code style="font-size:10px">text</code></td>
+        </tr>
+        <tr>
+          <td><code>label</code></td>
+          <td style="font-size:11px;font-weight:bold;line-height:1.2"
+              title="label">Aa あア</td>
+          <td>11pt</td>
+          <td>Bold</td>
+          <td><code style="font-size:10px">textLight</code></td>
+        </tr>
+        <tr>
+          <td><code>title_cover</code></td>
+          <td style="font-size:36px;font-weight:bold;line-height:1.2"
+              title="title_cover">Aa あア</td>
+          <td>36pt</td>
+          <td>Bold</td>
+          <td><code style="font-size:10px">white</code></td>
+        </tr>
+        <tr>
+          <td><code>subtitle_cover</code></td>
+          <td style="font-size:18px;font-weight:normal;line-height:1.2"
+              title="subtitle_cover">Aa あア</td>
+          <td>18pt</td>
+          <td>—</td>
+          <td><code style="font-size:10px">white</code></td>
+        </tr></tbody>
+    </table>
+  </div>
+  <div><img src="images/styles_preview.png" alt="styles" style="width:100%;border:1px solid #D9D9D9;border-radius:6px"></div>
+</div>
+
+<div class="section-title">パターン一覧</div>
 <div class="filter-bar">
+  <span class="filter-label">カテゴリ:</span>
   <button onclick="filterCat('')" data-cat="" class="active">すべて</button>
+<button onclick="filterCat('コンサルティング')" data-cat="コンサルティング">コンサルティング</button>
 <button onclick="filterCat('データ')" data-cat="データ">データ</button>
 <button onclick="filterCat('フロー')" data-cat="フロー">フロー</button>
 <button onclick="filterCat('強調')" data-cat="強調">強調</button>
@@ -82,152 +292,256 @@
 <button onclick="filterCat('表紙')" data-cat="表紙">表紙</button>
 
 </div>
+<div class="filter-bar" style="border-top:none">
+  <span class="filter-label">ドキュメント:</span>
+  <button onclick="filterDoc('')" data-doc="" class="active">すべて</button>
+<button onclick="filterDoc('ドアノッカー')" data-doc="ドアノッカー">ドアノッカー</button>
+<button onclick="filterDoc('提案書')" data-doc="提案書">提案書</button>
+<button onclick="filterDoc('SOW')" data-doc="SOW">SOW</button>
+<button onclick="filterDoc('ビジネスケース')" data-doc="ビジネスケース">ビジネスケース</button>
+<button onclick="filterDoc('定例報告')" data-doc="定例報告">定例報告</button>
+<button onclick="filterDoc('ステアリングコミッティ')" data-doc="ステアリングコミッティ">ステアリングコミッティ</button>
+<button onclick="filterDoc('ワークショップ')" data-doc="ワークショップ">ワークショップ</button>
+<button onclick="filterDoc('フィンディングス')" data-doc="フィンディングス">フィンディングス</button>
+<button onclick="filterDoc('戦略提言')" data-doc="戦略提言">戦略提言</button>
+<button onclick="filterDoc('エグゼクティブブリーフィング')" data-doc="エグゼクティブブリーフィング">エグゼクティブブリーフィング</button>
+
+</div>
 <div class="grid" id="grid">
   
-        <div class="card" data-category="構造">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="構造" data-documents="提案書, SOW, ワークショップ, 戦略提言, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/agenda.png" alt="agenda"></div>
           <div class="card-body">
             <div class="category-badge">構造</div>
             <h3>agenda</h3>
             <p class="description">アジェンダ（目次）スライド（現在地ハイライト付き）</p>
             <p class="usage"><span>用途:</span> プレゼン冒頭の目次、セクション開始時の案内</p>
+            <div class="doc-tags"><span class="doc-tag">提案書</span><span class="doc-tag">SOW</span><span class="doc-tag">ワークショップ</span><span class="doc-tag">戦略提言</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>agenda.py</code>
           </div>
         </div>
-        <div class="card" data-category="本文">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="本文" data-documents="SOW, ワークショップ, フィンディングス, 定例報告">
+          <div class="thumbnail"><img src="images/body_1col.png" alt="body_1col"></div>
           <div class="card-body">
             <div class="category-badge">本文</div>
             <h3>body_1col</h3>
             <p class="description">1カラム本文レイアウト（タイトル＋箇条書き）</p>
             <p class="usage"><span>用途:</span> 説明スライド、方針発表、シングルメッセージ</p>
+            <div class="doc-tags"><span class="doc-tag">SOW</span><span class="doc-tag">ワークショップ</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">定例報告</span></div>
             <code>body_1col.py</code>
           </div>
         </div>
-        <div class="card" data-category="本文">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="本文" data-documents="ドアノッカー, 提案書, ビジネスケース, ステアリングコミッティ, フィンディングス, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/body_2col.png" alt="body_2col"></div>
           <div class="card-body">
             <div class="category-badge">本文</div>
             <h3>body_2col</h3>
             <p class="description">2カラム本文レイアウト（左右に内容を並列配置）</p>
             <p class="usage"><span>用途:</span> 比較説明、Before/After、2トピック並列</p>
+            <div class="doc-tags"><span class="doc-tag">ドアノッカー</span><span class="doc-tag">提案書</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">ステアリングコミッティ</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>body_2col.py</code>
           </div>
         </div>
-        <div class="card" data-category="本文">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="本文" data-documents="提案書, 戦略提言, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/body_3col.png" alt="body_3col"></div>
           <div class="card-body">
             <div class="category-badge">本文</div>
             <h3>body_3col</h3>
             <p class="description">3カラム本文レイアウト（3つのポイントを並列配置）</p>
             <p class="usage"><span>用途:</span> 3つの施策・戦略軸・特徴の並列説明</p>
+            <div class="doc-tags"><span class="doc-tag">提案書</span><span class="doc-tag">戦略提言</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>body_3col.py</code>
           </div>
         </div>
-        <div class="card" data-category="表紙">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="表紙" data-documents="ドアノッカー, 提案書, SOW, ビジネスケース, 定例報告, ステアリングコミッティ, ワークショップ, フィンディングス, 戦略提言, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/closing.png" alt="closing"></div>
           <div class="card-body">
             <div class="category-badge">表紙</div>
             <h3>closing</h3>
             <p class="description">最終スライド（Thank you / 次のステップ）</p>
             <p class="usage"><span>用途:</span> プレゼン締め、連絡先、次のアクション提示</p>
+            <div class="doc-tags"><span class="doc-tag">ドアノッカー</span><span class="doc-tag">提案書</span><span class="doc-tag">SOW</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">定例報告</span><span class="doc-tag">ステアリングコミッティ</span><span class="doc-tag">ワークショップ</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">戦略提言</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>closing.py</code>
           </div>
         </div>
-        <div class="card" data-category="表紙">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="コンサルティング" data-documents="フィンディングス, 提案書, 戦略提言, ドアノッカー">
+          <div class="thumbnail"><img src="images/consulting_findings.png" alt="consulting_findings"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>consulting_findings</h3>
+            <p class="description">発見事項リスト（番号・重要度バッジ付き）</p>
+            <p class="usage"><span>用途:</span> 診断結果、課題一覧、インタビュー発見事項の提示</p>
+            <div class="doc-tags"><span class="doc-tag">フィンディングス</span><span class="doc-tag">提案書</span><span class="doc-tag">戦略提言</span><span class="doc-tag">ドアノッカー</span></div>
+            <code>consulting_findings.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="コンサルティング" data-documents="SOW, 提案書, ビジネスケース">
+          <div class="thumbnail"><img src="images/consulting_pricing.png" alt="consulting_pricing"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>consulting_pricing</h3>
+            <p class="description">料金・工数テーブル（フェーズ別・役割別）</p>
+            <p class="usage"><span>用途:</span> SOWの費用明細、投資額の内訳提示</p>
+            <div class="doc-tags"><span class="doc-tag">SOW</span><span class="doc-tag">提案書</span><span class="doc-tag">ビジネスケース</span></div>
+            <code>consulting_pricing.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="コンサルティング" data-documents="定例報告, ステアリングコミッティ, SOW">
+          <div class="thumbnail"><img src="images/consulting_risk.png" alt="consulting_risk"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>consulting_risk</h3>
+            <p class="description">リスク・課題ログ表（影響度・対応状況付き）</p>
+            <p class="usage"><span>用途:</span> プロジェクト課題管理、リスク一覧の定例報告</p>
+            <div class="doc-tags"><span class="doc-tag">定例報告</span><span class="doc-tag">ステアリングコミッティ</span><span class="doc-tag">SOW</span></div>
+            <code>consulting_risk.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="コンサルティング" data-documents="SOW, 提案書">
+          <div class="thumbnail"><img src="images/consulting_scope.png" alt="consulting_scope"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>consulting_scope</h3>
+            <p class="description">スコープ・デリバラブル定義表（フェーズ×項目）</p>
+            <p class="usage"><span>用途:</span> SOWのスコープ定義、作業範囲と成果物の明示</p>
+            <div class="doc-tags"><span class="doc-tag">SOW</span><span class="doc-tag">提案書</span></div>
+            <code>consulting_scope.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="コンサルティング" data-documents="戦略提言, 提案書, フィンディングス, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/consulting_scr.png" alt="consulting_scr"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>consulting_scr</h3>
+            <p class="description">Situation / Complication / Resolution の3段構造スライド</p>
+            <p class="usage"><span>用途:</span> 課題提起と提言、戦略的メッセージの論理構造</p>
+            <div class="doc-tags"><span class="doc-tag">戦略提言</span><span class="doc-tag">提案書</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
+            <code>consulting_scr.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="表紙" data-documents="ドアノッカー, 提案書, SOW, ビジネスケース, 定例報告, ステアリングコミッティ, ワークショップ, フィンディングス, 戦略提言, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/cover_basic.png" alt="cover_basic"></div>
           <div class="card-body">
             <div class="category-badge">表紙</div>
             <h3>cover_basic</h3>
             <p class="description">シンプルなカラー背景の表紙スライド</p>
             <p class="usage"><span>用途:</span> プレゼン開始、報告書表紙、提案書表紙</p>
+            <div class="doc-tags"><span class="doc-tag">ドアノッカー</span><span class="doc-tag">提案書</span><span class="doc-tag">SOW</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">定例報告</span><span class="doc-tag">ステアリングコミッティ</span><span class="doc-tag">ワークショップ</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">戦略提言</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>cover_basic.py</code>
           </div>
         </div>
-        <div class="card" data-category="表紙">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="表紙" data-documents="ワークショップ, 提案書">
+          <div class="thumbnail"><img src="images/cover_section.png" alt="cover_section"></div>
           <div class="card-body">
             <div class="category-badge">表紙</div>
             <h3>cover_section</h3>
             <p class="description">セクション区切りスライド（番号付き左帯）</p>
             <p class="usage"><span>用途:</span> 章・セクションの開始、アジェンダ区切り</p>
+            <div class="doc-tags"><span class="doc-tag">ワークショップ</span><span class="doc-tag">提案書</span></div>
             <code>cover_section.py</code>
           </div>
         </div>
-        <div class="card" data-category="データ">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="データ" data-documents="ビジネスケース, 提案書, フィンディングス, 戦略提言">
+          <div class="thumbnail"><img src="images/data_comparison.png" alt="data_comparison"></div>
           <div class="card-body">
             <div class="category-badge">データ</div>
             <h3>data_comparison</h3>
             <p class="description">左右2列比較表（メリット/デメリット、現状/目標など）</p>
             <p class="usage"><span>用途:</span> 比較分析、課題と施策、現状と目標</p>
+            <div class="doc-tags"><span class="doc-tag">ビジネスケース</span><span class="doc-tag">提案書</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">戦略提言</span></div>
             <code>data_comparison.py</code>
           </div>
         </div>
-        <div class="card" data-category="データ">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="データ" data-documents="ドアノッカー, 定例報告, ステアリングコミッティ, ビジネスケース, エグゼクティブブリーフィング, 戦略提言">
+          <div class="thumbnail"><img src="images/data_kpi.png" alt="data_kpi"></div>
           <div class="card-body">
             <div class="category-badge">データ</div>
             <h3>data_kpi</h3>
             <p class="description">KPI数値カードを横並びに表示するスライド</p>
             <p class="usage"><span>用途:</span> 業績サマリー、KPIダッシュボード、数値報告</p>
+            <div class="doc-tags"><span class="doc-tag">ドアノッカー</span><span class="doc-tag">定例報告</span><span class="doc-tag">ステアリングコミッティ</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">エグゼクティブブリーフィング</span><span class="doc-tag">戦略提言</span></div>
             <code>data_kpi.py</code>
           </div>
         </div>
-        <div class="card" data-category="データ">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="データ" data-documents="SOW, 定例報告, ビジネスケース, フィンディングス, ステアリングコミッティ">
+          <div class="thumbnail"><img src="images/data_table.png" alt="data_table"></div>
           <div class="card-body">
             <div class="category-badge">データ</div>
             <h3>data_table</h3>
             <p class="description">図形ベースのデータテーブル（pptx native table 禁止）</p>
             <p class="usage"><span>用途:</span> 一覧表、データ比較、スケジュール表</p>
+            <div class="doc-tags"><span class="doc-tag">SOW</span><span class="doc-tag">定例報告</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">フィンディングス</span><span class="doc-tag">ステアリングコミッティ</span></div>
             <code>data_table.py</code>
           </div>
         </div>
-        <div class="card" data-category="フロー">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="フロー" data-documents="提案書, SOW, ワークショップ, 戦略提言">
+          <div class="thumbnail"><img src="images/flow_process.png" alt="flow_process"></div>
           <div class="card-body">
             <div class="category-badge">フロー</div>
             <h3>flow_process</h3>
             <p class="description">横並びプロセスフロー（矢印付き箱）</p>
             <p class="usage"><span>用途:</span> 業務フロー、プロセス説明、ステップ解説</p>
+            <div class="doc-tags"><span class="doc-tag">提案書</span><span class="doc-tag">SOW</span><span class="doc-tag">ワークショップ</span><span class="doc-tag">戦略提言</span></div>
             <code>flow_process.py</code>
           </div>
         </div>
-        <div class="card" data-category="フロー">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="フロー" data-documents="SOW, ビジネスケース, 定例報告, 戦略提言, ステアリングコミッティ">
+          <div class="thumbnail"><img src="images/flow_timeline.png" alt="flow_timeline"></div>
           <div class="card-body">
             <div class="category-badge">フロー</div>
             <h3>flow_timeline</h3>
             <p class="description">横タイムライン（日時付きマイルストーン）</p>
             <p class="usage"><span>用途:</span> プロジェクト計画、ロードマップ、スケジュール</p>
+            <div class="doc-tags"><span class="doc-tag">SOW</span><span class="doc-tag">ビジネスケース</span><span class="doc-tag">定例報告</span><span class="doc-tag">戦略提言</span><span class="doc-tag">ステアリングコミッティ</span></div>
             <code>flow_timeline.py</code>
           </div>
         </div>
-        <div class="card" data-category="強調">
-          <div class="thumbnail"><div class="no-img">プレビューなし<br>LibreOfficeをインストールして<br>gen_catalog.py を再実行</div></div>
+        <div class="card" data-category="強調" data-documents="ドアノッカー, 提案書, 戦略提言, エグゼクティブブリーフィング">
+          <div class="thumbnail"><img src="images/quote.png" alt="quote"></div>
           <div class="card-body">
             <div class="category-badge">強調</div>
             <h3>quote</h3>
             <p class="description">引用・インサイト強調スライド</p>
             <p class="usage"><span>用途:</span> キーメッセージ強調、インタビュー引用、重要な洞察</p>
+            <div class="doc-tags"><span class="doc-tag">ドアノッカー</span><span class="doc-tag">提案書</span><span class="doc-tag">戦略提言</span><span class="doc-tag">エグゼクティブブリーフィング</span></div>
             <code>quote.py</code>
+          </div>
+        </div>
+        <div class="card" data-category="コンサルティング" data-documents="ワークショップ">
+          <div class="thumbnail"><img src="images/workshop_exercise.png" alt="workshop_exercise"></div>
+          <div class="card-body">
+            <div class="category-badge">コンサルティング</div>
+            <h3>workshop_exercise</h3>
+            <p class="description">ワーク指示スライド（作業説明・グループ構成・制限時間）</p>
+            <p class="usage"><span>用途:</span> ワークショップのグループワーク指示、演習説明</p>
+            <div class="doc-tags"><span class="doc-tag">ワークショップ</span></div>
+            <code>workshop_exercise.py</code>
           </div>
         </div>
 </div>
 <footer>ppt-gen &copy; 2026 — <code>tools/gen_catalog.py</code> で再生成</footer>
 <script>
-  function filterCat(cat) {
-    document.querySelectorAll('.filter-bar button').forEach(b => {
-      b.classList.toggle('active', b.dataset.cat === cat);
-    });
+  let activeCat = "";
+  let activeDoc = "";
+
+  function applyFilters() {
     document.querySelectorAll('.card').forEach(card => {
-      if (!cat || card.dataset.category === cat) {
-        card.classList.remove('hidden');
-      } else {
-        card.classList.add('hidden');
-      }
+      const catOk = !activeCat || card.dataset.category === activeCat;
+      const docOk = !activeDoc || (card.dataset.documents || "").split(",").map(d => d.trim()).includes(activeDoc);
+      card.classList.toggle('hidden', !(catOk && docOk));
     });
+  }
+
+  function filterCat(cat) {
+    activeCat = cat;
+    document.querySelectorAll('[data-cat]').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+    applyFilters();
+  }
+
+  function filterDoc(doc) {
+    activeDoc = doc;
+    document.querySelectorAll('[data-doc]').forEach(b => b.classList.toggle('active', b.dataset.doc === doc));
+    applyFilters();
   }
 </script>
 </body>

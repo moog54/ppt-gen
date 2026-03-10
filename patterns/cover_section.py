@@ -3,6 +3,7 @@
 カテゴリ: 表紙
 説明: セクション区切りスライド（番号付き左帯）
 用途: 章・セクションの開始、アジェンダ区切り
+ドキュメント: ワークショップ, 提案書
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

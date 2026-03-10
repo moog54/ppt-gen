@@ -3,6 +3,7 @@
 カテゴリ: 本文
 説明: 3カラム本文レイアウト（3つのポイントを並列配置）
 用途: 3つの施策・戦略軸・特徴の並列説明
+ドキュメント: 提案書, 戦略提言, エグゼクティブブリーフィング
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

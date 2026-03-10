@@ -3,6 +3,7 @@
 カテゴリ: 表紙
 説明: 最終スライド（Thank you / 次のステップ）
 用途: プレゼン締め、連絡先、次のアクション提示
+ドキュメント: ドアノッカー, 提案書, SOW, ビジネスケース, 定例報告, ステアリングコミッティ, ワークショップ, フィンディングス, 戦略提言, エグゼクティブブリーフィング
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

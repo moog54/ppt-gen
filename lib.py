@@ -40,6 +40,51 @@ C = {
     "black":     "000000",
     "rowAlt":    "EFF4FB",
 }
+_C_DEFAULT = C.copy()  # テーマリセット用のデフォルト値
+
+# ---------------------------------------------------------------------------
+# テーマプリセット
+# ---------------------------------------------------------------------------
+
+THEMES: dict[str, dict] = {
+    "default": {},  # lib.py のデフォルト値をそのまま使用
+    "accenture": {
+        "accent":    "A100FF",
+        "accent2":   "7300B3",
+        "accent3":   "FF6B00",
+        "headerBg":  "A100FF",
+        "rowAlt":    "F5E6FF",
+    },
+    "navy": {
+        "accent":    "1A3C6E",
+        "accent2":   "2E6DB4",
+        "accent3":   "C8A951",
+        "headerBg":  "1A3C6E",
+        "rowAlt":    "EBF0F8",
+    },
+    "green": {
+        "accent":    "00875A",
+        "accent2":   "005C3C",
+        "accent3":   "F4A100",
+        "headerBg":  "00875A",
+        "rowAlt":    "E6F5EF",
+    },
+    "warm": {
+        "accent":    "C55A11",
+        "accent2":   "843D0B",
+        "accent3":   "F4C430",
+        "headerBg":  "C55A11",
+        "rowAlt":    "FDF0E6",
+    },
+    "mckinsey": {
+        "accent":    "002F6C",
+        "accent2":   "0060A9",
+        "accent3":   "C8A951",
+        "headerBg":  "002F6C",
+        "rowAlt":    "E8EDF5",
+        "bgLight":   "F2F4F8",
+    },
+}
 
 TEXT_STYLES: dict[str, dict] = {
     "heading":    {"font_size": 24, "bold": True,  "color": "text"},
@@ -707,13 +752,14 @@ class SlideBuilder:
 
     def __init__(
         self,
-        theme: dict | None = None,
+        theme: dict | str | None = None,
         master_path: str | None = None,
     ):
-        # テーマ上書き
+        # テーマ上書き（毎回デフォルトから作り直してインスタンス間で色が混ざらないようにする）
         global C
-        if theme:
-            C = {**C, **theme}
+        if isinstance(theme, str):
+            theme = THEMES.get(theme, {})
+        C = {**_C_DEFAULT, **(theme or {})}
 
         # プレゼンテーション初期化
         if master_path and Path(master_path).exists():

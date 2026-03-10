@@ -3,6 +3,7 @@
 カテゴリ: 本文
 説明: 1カラム本文レイアウト（タイトル＋箇条書き）
 用途: 説明スライド、方針発表、シングルメッセージ
+ドキュメント: SOW, ワークショップ, フィンディングス, 定例報告
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

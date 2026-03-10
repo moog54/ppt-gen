@@ -3,6 +3,7 @@
 カテゴリ: データ
 説明: 左右2列比較表（メリット/デメリット、現状/目標など）
 用途: 比較分析、課題と施策、現状と目標
+ドキュメント: ビジネスケース, 提案書, フィンディングス, 戦略提言
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

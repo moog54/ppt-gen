@@ -3,6 +3,7 @@
 カテゴリ: データ
 説明: 図形ベースのデータテーブル（pptx native table 禁止）
 用途: 一覧表、データ比較、スケジュール表
+ドキュメント: SOW, 定例報告, ビジネスケース, フィンディングス, ステアリングコミッティ
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

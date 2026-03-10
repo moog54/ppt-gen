@@ -3,6 +3,7 @@
 カテゴリ: フロー
 説明: 横並びプロセスフロー（矢印付き箱）
 用途: 業務フロー、プロセス説明、ステップ解説
+ドキュメント: 提案書, SOW, ワークショップ, 戦略提言
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

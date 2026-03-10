@@ -11,9 +11,10 @@
 ## 環境
 
 ```
-プロジェクト: /mnt/c/Users/moogs/work/ppt-gen
-Python: /home/moog/hr_venv/bin/python
-出力先: /mnt/c/Users/moogs/work/ppt-gen/output/
+プロジェクト: /home/moog/work/ppt-gen
+Python: /home/moog/.local/bin/uv run python（作業ディレクトリは /home/moog/work/ppt-gen）
+出力先: /home/moog/work/ppt-gen/output/
+Windowsからのパス: \\wsl$\Ubuntu\home\moog\work\ppt-gen\output\
 ```
 
 ---
@@ -28,14 +29,45 @@ Python: /home/moog/hr_venv/bin/python
 - **テーマカラー**: 指定があれば反映（未指定は `0070C0` デフォルト）
 - **内容**: 各スライドに何を載せるか
 
-### Step 2: パターン選定
+### Step 2: ドキュメント種別・パターン・テーマ選定
 
-`PATTERN_CATALOG.md` を参照して適切なパターンを選択する。
+`catalog/index.html` を参照して適切なパターンを選択する。
 
-よくある組み合わせ:
-- 事業報告: `cover → agenda → data_kpi → data_table → flow_timeline → closing`
-- 提案書: `cover → quote → body_3col → data_comparison → flow_process → closing`
-- 定例報告: `cover → data_kpi → data_table → closing`
+**コンサルティングドキュメント種別と推奨構成:**
+
+| ドキュメント種別 | テーマ | 推奨スライド構成 | 参照例 |
+|---|---|---|---|
+| ドアノッカー | mckinsey | cover → consulting_scr → consulting_findings → data_comparison → closing | `examples/door_knocker.py` |
+| 提案書 | default/accenture | cover → consulting_scr → consulting_scope → consulting_pricing → flow_timeline → closing | `examples/proposal.py` |
+| SOW | navy | cover → body_1col → consulting_scope → consulting_pricing → flow_timeline → closing | `examples/sow.py` |
+| ビジネスケース | default | cover → consulting_scr → data_kpi → data_comparison → flow_timeline → closing | `examples/business_case.py` |
+| 定例報告 | default | cover → data_kpi → data_table → consulting_risk → flow_timeline → closing | `examples/status_report.py` |
+| ステアリングコミッティ | navy | cover → data_kpi → consulting_risk → flow_timeline → closing | `examples/steering_committee.py` |
+| ワークショップ | green | cover → agenda → cover_section → workshop_exercise → closing | `examples/workshop.py` |
+| フィンディングス | default | cover → consulting_scr → consulting_findings × 2 → data_comparison → closing | `examples/findings.py` |
+| 戦略提言 | mckinsey | cover → consulting_scr → data_comparison → body_3col → flow_timeline → closing | `examples/strategic_recommendation.py` |
+| エグゼクティブブリーフィング | navy | cover → data_kpi → consulting_risk → closing | `examples/executive_briefing.py` |
+
+**パターン指定例（ユーザーがこう言ったら従う）:**
+- 「KPIスライドは data_kpi パターンで」→ `add_kpi_row` を使う
+- 「比較スライドは body_2col で」→ 2カラムレイアウト
+- 「フローは flow_process で」→ `add_flow_row` を使う
+- 「フィンディングス形式で」→ `consulting_findings` パターン（番号付きカード＋重大度バッジ）
+- 「SCR形式で」→ `consulting_scr` パターン（状況・課題・提言の3ブロック）
+
+**テーマプリセット（`lib.THEMES` に定義済み）:**
+
+| テーマ名 | カラー | 用途 |
+|---|---|---|
+| `default` | 企業ブルー #0070C0 | 汎用・デフォルト |
+| `accenture` | パープル #A100FF | コンサルティング・提案書 |
+| `navy` | 濃紺 #1A3C6E | 重厚感・金融・官公庁 |
+| `green` | グリーン #00875A | ESG・サステナビリティ |
+| `warm` | オレンジ #C55A11 | エネルギー・製造 |
+| `mckinsey` | 濃紺 #002F6C | 戦略コンサル・経営報告 |
+
+指定方法: `SlideBuilder(theme="mckinsey")`
+カタログ確認: `catalog/index.html`（テーマ一覧＋パターン一覧）
 
 ### Step 3: コード作成
 
@@ -44,7 +76,7 @@ Python: /home/moog/hr_venv/bin/python
 ```python
 # 雛形
 import sys
-sys.path.insert(0, "/mnt/c/Users/moogs/work/ppt-gen")
+sys.path.insert(0, "/home/moog/work/ppt-gen")
 from lib import SlideBuilder, add_text, add_kpi_row, CONTENT_TOP, ...
 
 sb = SlideBuilder(theme={"accent": "RRGGBB"})
@@ -64,8 +96,8 @@ result = sb.save_and_validate("output/FILENAME.pptx")
 ### Step 4: 実行
 
 ```bash
-cd /mnt/c/Users/moogs/work/ppt-gen
-/home/moog/hr_venv/bin/python output_script_or_inline.py
+cd /home/moog/work/ppt-gen
+/home/moog/.local/bin/uv run python output_script_or_inline.py
 ```
 
 ### Step 5: バリデーション確認
@@ -132,6 +164,14 @@ from lib import (
 ### 「examples/business_report.py を参考に〇〇向けに修正して」
 
 → `examples/business_report.py` を読んで内容を把握してから修正
+
+### 「ステアリングコミッティ資料をnavyテーマで」
+
+→ `examples/steering_committee.py` を参照。`SlideBuilder(theme="navy")` を使用
+
+### 「フィンディングスレポートを作って」
+
+→ `examples/findings.py` を参照。`consulting_scr` + `consulting_findings` × 2 の構成
 
 ---
 

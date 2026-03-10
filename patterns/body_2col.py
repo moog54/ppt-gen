@@ -3,6 +3,7 @@
 カテゴリ: 本文
 説明: 2カラム本文レイアウト（左右に内容を並列配置）
 用途: 比較説明、Before/After、2トピック並列
+ドキュメント: ドアノッカー, 提案書, ビジネスケース, ステアリングコミッティ, フィンディングス, エグゼクティブブリーフィング
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

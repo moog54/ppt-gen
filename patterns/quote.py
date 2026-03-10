@@ -3,6 +3,7 @@
 カテゴリ: 強調
 説明: 引用・インサイト強調スライド
 用途: キーメッセージ強調、インタビュー引用、重要な洞察
+ドキュメント: ドアノッカー, 提案書, 戦略提言, エグゼクティブブリーフィング
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

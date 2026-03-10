@@ -3,6 +3,7 @@
 カテゴリ: フロー
 説明: 横タイムライン（日時付きマイルストーン）
 用途: プロジェクト計画、ロードマップ、スケジュール
+ドキュメント: SOW, ビジネスケース, 定例報告, 戦略提言, ステアリングコミッティ
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

@@ -3,6 +3,7 @@
 カテゴリ: 構造
 説明: アジェンダ（目次）スライド（現在地ハイライト付き）
 用途: プレゼン冒頭の目次、セクション開始時の案内
+ドキュメント: 提案書, SOW, ワークショップ, 戦略提言, エグゼクティブブリーフィング
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
