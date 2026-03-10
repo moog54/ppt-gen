@@ -4,7 +4,7 @@
 
 自然言語の指示から、ブランド制約付きPPTXプレゼンテーションを生成するスキル。
 
-**トリガー**: `/slides` または「〇〇のスライドを作って」「PPTを生成して」などの意図で起動
+**トリガー**: `/ppt-gen` または「〇〇のスライドを作って」「PPTを生成して」などの意図で起動
 
 ---
 
@@ -172,6 +172,109 @@ from lib import (
 ### 「フィンディングスレポートを作って」
 
 → `examples/findings.py` を参照。`consulting_scr` + `consulting_findings` × 2 の構成
+
+---
+
+## ガントチャート生成（特別対応）
+
+「ガントチャート」「工程表」「スケジュール」などのキーワードがある場合、通常フローではなく以下に従う。
+
+### Step 1: AskUserQuestion で情報収集
+
+**1回目（選択式）**: テーマ・粒度を並べて質問する。
+
+```
+Q1: テーマ（accenture / mckinsey / navy / default）
+Q2: 粒度（週次=各月W1〜W4 / 月次）
+```
+
+**2回目（自由記述）**: プロジェクト情報とタスクをまとめて質問する。
+
+```
+Q3: プロジェクト名・開始年月（例: 2026-04）・期間（ヶ月数）
+Q4: タスク一覧を以下の形式で（1行1タスク）
+      タスク名, P1〜P5, 開始[週/月]番号, 終了[週/月]番号
+    マイルストーン（任意）:
+      マイルストーン名, [週/月]番号
+```
+
+ユーザーが途中で指定している情報は再度聞かない。
+
+### Step 2: コード生成・実行
+
+参照テンプレート: `output/gen_gantt.py`（実績あり）
+
+**テーマ別パレット（コード中に埋め込む）:**
+
+```python
+THEME_PALETTE = {
+    "accenture": {"phases":["5B0099","A100FF","BE4DFF","D98AFF","ECC6FF"],
+                  "hdr_bg":"5B0099","hdr_text":"FFFFFF",
+                  "cell_a":"EDD9FF","cell_b":"F5EEFF","cell_border":"D4A8FF",
+                  "row_alt":"FAF5FF","stripe_sep":"B366FF",
+                  "ms_line":"A100FF","ms_badge":"A100FF","ms_text":"5B0099"},
+    "mckinsey":  {"phases":["002F6C","1455A0","2980B9","5DADE2","A9CCE3"],
+                  "hdr_bg":"002F6C","hdr_text":"FFFFFF",
+                  "cell_a":"D6E4F0","cell_b":"EBF5FB","cell_border":"C0D3E8",
+                  "row_alt":"F2F5FA","stripe_sep":"1455A0",
+                  "ms_line":"002F6C","ms_badge":"002F6C","ms_text":"002F6C"},
+    "navy":      {"phases":["1A3C6E","2B5DA7","4C80C4","7CAAD9","AECCE8"],
+                  "hdr_bg":"1A3C6E","hdr_text":"FFFFFF",
+                  "cell_a":"D4E2F0","cell_b":"EBF2F8","cell_border":"B5CCE0",
+                  "row_alt":"F0F4F8","stripe_sep":"2B5DA7",
+                  "ms_line":"1A3C6E","ms_badge":"1A3C6E","ms_text":"1A3C6E"},
+    "default":   {"phases":["004B8D","0070C0","3498DB","7EC8F5","C5E5F7"],
+                  "hdr_bg":"0070C0","hdr_text":"FFFFFF",
+                  "cell_a":"D4EBFA","cell_b":"EBF5FC","cell_border":"B3D7F2",
+                  "row_alt":"F0F7FC","stripe_sep":"0070C0",
+                  "ms_line":"0070C0","ms_badge":"0070C0","ms_text":"0070C0"},
+}
+```
+
+**レイアウト定数（共通）:**
+
+```
+LABEL_X=0.35 / LABEL_W=2.65 / CHART_X=3.05 / CHART_W=9.75（右端12.80"）
+BADGE_D=0.28 / SAFE_R=12.9
+```
+
+**週次モード（2段ヘッダー）:**
+```
+MO_HDR_H=0.30 / WK_HDR_H=0.26 / TASKS_Y=2.20
+N_WEEKS = n_months × 4  /  WW = CHART_W / N_WEEKS
+```
+
+**月次モード（1段ヘッダー）:**
+```
+HDR_H=0.36 / TASKS_Y=2.00
+MW = CHART_W / n_months
+```
+
+**行高さの動的計算（タスク数に応じて自動調整）:**
+```python
+MS_H  = (0.06 + BADGE_D + 0.04 + 0.22) if milestones else 0.08
+LEG_H = 0.08 + 0.20
+ROW_H = max(0.35, min(0.55, (7.0 - TASKS_Y - MS_H - LEG_H) / len(tasks)))
+```
+
+**バーテキスト色の自動判定:**
+```python
+def bar_text_color(hex):
+    r,g,b = int(hex[0:2],16),int(hex[2:4],16),int(hex[4:6],16)
+    return "1A1A1A" if 0.299*r+0.587*g+0.114*b > 150 else "FFFFFF"
+```
+
+**出力ファイル名:**
+```python
+from datetime import datetime
+fname = f"output/gantt_{proj_title}_{datetime.now().strftime('%m%d_%H%M')}.pptx"
+```
+
+### 注意事項
+- マイルストーン縦線はバーより先（背面）に描画する
+- バッジ右端クランプ: `bx = min(mx - BADGE_D/2, 12.9 - BADGE_D)`
+- マイルストークラベル右端クランプ: `lb_x = max(0.35, min(mx - lb_w/2, 12.9 - lb_w))`
+- 月境界の縦線は太め（width=1.0）、週境界は細め（width=0.5）
 
 ---
 
