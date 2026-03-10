@@ -544,6 +544,137 @@ def add_comparison(
     return shapes
 
 
+def add_content_box_table(
+    slide,
+    x: float, y: float, w: float,
+    headers: list[str],
+    rows: list[dict],
+    col_widths: list[float] | None = None,
+    label_w: float = 1.5,
+    header_h: float = 0.55,
+    row_h: float = 0.48,
+    gap: float = 0.15,
+    header_color: str = "accent",
+    header_text_color: str = "white",
+    highlight_col: int | None = None,
+    highlight_label: str = "推奨",
+    show_labels: bool = True,
+) -> list:
+    """
+    コンテンツボックス型テーブルを追加する。
+    各列が独立したカード状ボックスで構成される、コンサル資料でよく使われる比較表。
+
+    headers: 列ヘッダー文字列のリスト
+    rows:    [{"label": str, "values": [str, str, ...], "label_color": str}]
+             label を省略するとラベル列を表示しない（show_labels=False 時も同様）
+    label_w: 左ラベル列の幅（show_labels=False の場合は無視）
+    highlight_col: ハイライトする列インデックス（0始まり、None でハイライトなし）
+    highlight_label: ハイライト列上部に表示するバッジテキスト
+
+    例:
+        add_content_box_table(
+            slide, x=0.5, y=1.6, w=12.33,
+            headers=["施策A", "施策B", "施策C"],
+            rows=[
+                {"label": "コスト",   "values": ["高い",  "中程度", "低い"]},
+                {"label": "実施期間", "values": ["6ヶ月", "3ヶ月",  "1ヶ月"]},
+                {"label": "効果",     "values": ["大",    "中",     "小"]},
+            ],
+            highlight_col=2,
+        )
+    """
+    n_cols = len(headers)
+    n_rows = len(rows)
+    if n_cols == 0:
+        return []
+
+    # 列幅計算
+    content_x = x + (label_w + gap if show_labels else 0)
+    content_w = w - (label_w + gap if show_labels else 0)
+    if col_widths is None:
+        cw = (content_w - gap * (n_cols - 1)) / n_cols
+        col_widths = [cw] * n_cols
+
+    total_h = header_h + row_h * n_rows
+    shapes = []
+
+    # ---- ハイライト列の背景（ボックス全体を浮かせる効果） ----
+    if highlight_col is not None and 0 <= highlight_col < n_cols:
+        hx = content_x + sum(col_widths[:highlight_col]) + gap * highlight_col
+        hw = col_widths[highlight_col]
+        shadow = add_rect(slide, hx + 0.04, y + 0.04, hw, total_h, fill="border")
+        shapes.append(shadow)
+        # バッジ
+        badge_w = min(hw * 0.7, 1.5)
+        badge_x = hx + (hw - badge_w) / 2
+        badge = add_rounded_rect(slide, badge_x, y - 0.3, badge_w, 0.28, fill=header_color)
+        shapes.append(badge)
+        shapes.append(add_text(slide, badge_x + 0.05, y - 0.28, badge_w - 0.1, 0.24,
+                               highlight_label, style="caption", align="center",
+                               color="white", bold=True))
+
+    # ---- 左ラベル列 ----
+    if show_labels:
+        # ラベル列ヘッダー（空白）
+        shapes.append(add_rounded_rect(slide, x, y, label_w, header_h, fill="bgLight", border="border"))
+        # 各行ラベル
+        for i, row in enumerate(rows):
+            ry = y + header_h + row_h * i
+            lbl = row.get("label", "")
+            lbl_color = row.get("label_color", "textLight")
+            shapes.append(add_rect(slide, x, ry, label_w, row_h, fill="bgLight", border="border"))
+            if lbl:
+                shapes.append(add_text(slide, x + 0.12, ry + 0.06, label_w - 0.2, row_h - 0.1,
+                                       lbl, style="small", align="left",
+                                       bold=True, color=lbl_color))
+
+    # ---- 各データ列 ----
+    for j, (hdr, cw) in enumerate(zip(headers, col_widths)):
+        cx = content_x + sum(col_widths[:j]) + gap * j
+        is_highlight = highlight_col is not None and j == highlight_col
+        h_color = header_color if not is_highlight else header_color
+        box_bg = "bg" if not is_highlight else "bg"
+        h_border = header_color if is_highlight else "border"
+
+        # ヘッダーボックス
+        shapes.append(add_rounded_rect(
+            slide, cx, y, cw, header_h,
+            fill=h_color if is_highlight else "bgLight",
+            border=h_color if is_highlight else "border",
+        ))
+        shapes.append(add_text(
+            slide, cx + 0.1, y + 0.08, cw - 0.2, header_h - 0.14,
+            hdr, style="small", align="center",
+            color=header_text_color if is_highlight else "text",
+            bold=True,
+        ))
+
+        # データ行
+        for i, row in enumerate(rows):
+            ry = y + header_h + row_h * i
+            val = row.get("values", [""] * n_cols)
+            val_text = val[j] if j < len(val) else ""
+
+            # セル背景
+            cell_fill = "rowAlt" if (not is_highlight and i % 2 == 1) else "bg"
+            if is_highlight:
+                cell_fill = "bg"
+            shapes.append(add_rect(
+                slide, cx, ry, cw, row_h,
+                fill=cell_fill,
+                border=header_color if is_highlight else "border",
+            ))
+
+            # セルテキスト
+            shapes.append(add_text(
+                slide, cx + 0.1, ry + 0.06, cw - 0.2, row_h - 0.1,
+                val_text, style="small", align="center",
+                color="text" if not is_highlight else "text",
+            ))
+
+    return shapes
+
+
 def add_bar_chart_img(
     slide,
     x: float, y: float, w: float, h: float,
