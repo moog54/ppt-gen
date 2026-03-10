@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, add_badge, add_line, C, CONTENT_TOP, SLIDE_W
+from lib import SlideBuilder, add_text, add_rect, add_badge, add_line, C, CONTENT_TOP, SLIDE_W
 
 
 def run(
@@ -43,7 +43,7 @@ def run(
 
     # 左カラム：目的 + ステップ
     col_w = 7.5
-    add_rounded_rect(slide, 0.5, y, col_w, 4.35, fill="bgLight", border="border")
+    add_rect(slide, 0.5, y, col_w, 4.35, fill="bgLight", border="border")
     add_rect(slide, 0.5, y, col_w, 0.38, fill="accent")
     add_text(slide, 0.65, y + 0.06, col_w - 0.3, 0.28,
              "目的", style="caption", color="white", bold=True)
@@ -62,7 +62,7 @@ def run(
     rx = 0.5 + col_w + 0.2
     rw = 12.33 - col_w - 0.2
 
-    add_rounded_rect(slide, rx, y, rw, 2.1, fill="accent", border=None)
+    add_rect(slide, rx, y, rw, 2.1, fill="accent", border=None)
     add_text(slide, rx + 0.15, y + 0.15, rw - 0.3, 0.35,
              "制限時間", style="caption", color="white")
     add_text(slide, rx + 0.15, y + 0.5, rw - 0.3, 1.1,
@@ -70,7 +70,7 @@ def run(
     add_text(slide, rx + 0.15, y + 1.65, rw - 0.3, 0.35,
              "分", style="subheading", color="white", align="center")
 
-    add_rounded_rect(slide, rx, y + 2.25, rw, 2.1, fill="bgLight", border="border")
+    add_rect(slide, rx, y + 2.25, rw, 2.1, fill="bgLight", border="border")
     add_rect(slide, rx, y + 2.25, rw, 0.38, fill="accent2")
     add_text(slide, rx + 0.15, y + 2.31, rw - 0.3, 0.28,
              "グループ構成", style="caption", color="white", bold=True)

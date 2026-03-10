@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, C, CONTENT_TOP, SLIDE_W
+from lib import SlideBuilder, add_text, add_rect, C, CONTENT_TOP, SLIDE_W
 
 STATUS_COLORS = {"対応中": "accent", "監視中": "accent2", "解決済": "textMuted", "エスカレーション": "accent3"}
 IMPACT_COLORS = {"高": "accent3", "中": "accent", "低": "accent2"}
@@ -58,7 +58,7 @@ def run(
 
         for label, w in [(item["id"], 0.7), (item["type"], 0.8), (None, 5.5),
                          (item["impact"], 0.7), (item["status"], 1.5), (item["owner"], 1.4)]:
-            add_rounded_rect(slide, rx, ry, w - 0.04, row_h, fill=bg, border="border")
+            add_rect(slide, rx, ry, w - 0.04, row_h, fill=bg, border="border")
             if label is not None:
                 color = "text"
                 if label == item["impact"]:

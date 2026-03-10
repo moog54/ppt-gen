@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, add_pill, C, CONTENT_TOP
+from lib import SlideBuilder, add_text, add_rect, add_pill, C, CONTENT_TOP
 
 
 def run(
@@ -41,7 +41,7 @@ def run(
         color = col.get("color", "accent")
 
         # カード背景
-        add_rounded_rect(slide, cx, y_base, col_w, card_h, fill="bg", border="border")
+        add_rect(slide, cx, y_base, col_w, card_h, fill="bg", border="border")
         # ヘッダーカラーバー
         add_rect(slide, cx, y_base, col_w, 0.6, fill=color)
         add_text(slide, cx + 0.1, y_base + 0.1, col_w - 0.2, 0.42,

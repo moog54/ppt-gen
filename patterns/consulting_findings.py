@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, add_badge, C, CONTENT_TOP, SLIDE_W
+from lib import SlideBuilder, add_text, add_rect, add_badge, C, CONTENT_TOP, SLIDE_W
 
 SEVERITY_COLORS = {"高": "accent3", "中": "accent", "低": "accent2"}
 
@@ -39,7 +39,7 @@ def run(
         color = SEVERITY_COLORS.get(severity, "accent")
 
         # カード背景
-        add_rounded_rect(slide, 0.5, by, 12.33, row_h, fill="bgLight", border="border")
+        add_rect(slide, 0.5, by, 12.33, row_h, fill="bgLight", border="border")
         add_rect(slide, 0.5, by, 0.07, row_h, fill=color)
 
         # 番号バッジ
@@ -47,7 +47,7 @@ def run(
 
         # 重要度バッジ
         sev_bg = color
-        add_rounded_rect(slide, 1.3, by + 0.38, 0.7, 0.32, fill=sev_bg)
+        add_rect(slide, 1.3, by + 0.38, 0.7, 0.32, fill=sev_bg)
         add_text(slide, 1.32, by + 0.4, 0.66, 0.28,
                  f"重要度:{severity}", style="caption", color="white", bold=True, font_size=9)
 

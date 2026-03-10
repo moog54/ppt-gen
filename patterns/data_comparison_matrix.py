@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, add_line, CONTENT_TOP
+from lib import SlideBuilder, add_text, add_rect, add_line, CONTENT_TOP
 
 
 # ── デフォルトパレット（テーマ別に差し替え可） ─────────────────────

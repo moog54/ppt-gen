@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, add_line, C, CONTENT_TOP, SLIDE_W
+from lib import SlideBuilder, add_text, add_rect, add_line, C, CONTENT_TOP, SLIDE_W
 
 
 def run(
@@ -67,7 +67,7 @@ def run(
         row_y = y + header_h + 0.1
 
         # デリバラブル
-        add_rounded_rect(slide, cx, row_y, col_w - 0.08, row_h, fill="bgLight", border="border")
+        add_rect(slide, cx, row_y, col_w - 0.08, row_h, fill="bgLight", border="border")
         add_rect(slide, cx, row_y, col_w - 0.08, 0.28, fill=color)
         add_text(slide, cx + 0.08, row_y + 0.04, col_w - 0.2, 0.22,
                  "成果物", style="caption", color="white", bold=True)
@@ -78,7 +78,7 @@ def run(
         row_y2 = row_y + row_h + 0.1
 
         # スコープ内
-        add_rounded_rect(slide, cx, row_y2, col_w - 0.08, row_h, fill="bg", border="accent2")
+        add_rect(slide, cx, row_y2, col_w - 0.08, row_h, fill="bg", border="accent2")
         add_rect(slide, cx, row_y2, col_w - 0.08, 0.28, fill="accent2")
         add_text(slide, cx + 0.08, row_y2 + 0.04, col_w - 0.2, 0.22,
                  "対象範囲（In Scope）", style="caption", color="white", bold=True)

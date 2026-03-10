@@ -7,7 +7,7 @@
 """
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from lib import SlideBuilder, add_text, add_rect, add_rounded_rect, C, CONTENT_TOP
+from lib import SlideBuilder, add_text, add_rect, C, CONTENT_TOP
 
 
 def run(
@@ -37,7 +37,7 @@ def run(
     for col_x, col_title, bullets in [(left_x, left_title, left_bullets),
                                        (right_x, right_title, right_bullets)]:
         # カラム背景
-        rect = add_rounded_rect(slide, col_x, y_base, col_w, card_h, fill="bgLight", border="border")
+        rect = add_rect(slide, col_x, y_base, col_w, card_h, fill="bgLight", border="border")
         # タイトルバー
         add_rect(slide, col_x, y_base, col_w, 0.55, fill="accent")
         add_text(slide, col_x + 0.15, y_base + 0.08, col_w - 0.3, 0.4,
