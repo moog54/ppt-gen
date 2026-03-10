@@ -128,6 +128,16 @@ def _in(v: float) -> Emu:
     return Inches(v)
 
 
+def _no_shadow(shape):
+    """図形の影を無効化する（空の effectLst で継承を上書き）"""
+    from lxml import etree
+    from pptx.oxml.ns import qn
+    spPr = shape.element.spPr
+    for el in spPr.findall(qn('a:effectLst')):
+        spPr.remove(el)
+    etree.SubElement(spPr, qn('a:effectLst'))
+
+
 def _add_shape_fill(shape, fill_color: str | None, border_color: str | None = None, border_width: float = 1.0):
     if fill_color is not None:
         shape.fill.solid()
@@ -141,6 +151,8 @@ def _add_shape_fill(shape, fill_color: str | None, border_color: str | None = No
         line.width = Pt(border_width)
     else:
         line.fill.background()
+
+    _no_shadow(shape)
 
 
 def _set_para_align(para, align: str):

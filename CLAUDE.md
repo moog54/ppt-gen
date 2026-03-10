@@ -241,6 +241,7 @@ add_timeline(slide, y=2.0, events=[
 | pptx native table | スタイル制御不能 | `add_table_shapes()` を使う |
 | 游ゴシック系フォント | ブランド制約 | `Meiryo UI`（自動設定） |
 | `add_rounded_rect()` | 角丸はデザイン方針として使用禁止 | `add_rect()` を使う |
+| 図形への影付け | デザイン方針として使用禁止 | `shape.shadow.inherit = False` で無効化（lib.py が自動処理） |
 | `shape.text_frame.text = "..."` | スタイル失われる | `add_text()` を使う |
 | コンテンツ x > 12.9" | はみ出し | x + w ≤ 12.9 に収める |
 | コンテンツ y > 7.0" | はみ出し | y + h ≤ 7.0 に収める |
