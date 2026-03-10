@@ -675,6 +675,200 @@ def add_content_box_table(
     return shapes
 
 
+def add_gantt(
+    slide,
+    x: float, y: float, w: float,
+    periods: list[dict],
+    rows: list[dict],
+    legend: dict | None = None,
+    header_color: str = "accent",
+    row_h: float = 0.40,
+    label_w: float = 1.0,
+    group_w: float = 0.45,
+    bar_colors: dict | None = None,
+) -> list:
+    """
+    コンサル式ガントチャート（プロジェクトスケジュール）を追加する。
+
+    periods: 期間ヘッダー定義
+        [{"label": "10月", "subperiods": ["3週", "10週", "17週", "24週", "31週"]}, ...]
+        サブ期間なしの場合: [{"label": "Phase1", "cols": 3}, ...]
+
+    rows: 行定義
+        [
+          # マイルストン行
+          {"label": "マイルストン", "milestones": [
+              {"col": 0, "label": "契約開始"},
+              {"col": 5, "label": "キックオフ"},
+          ]},
+          # タスク行（グループあり）
+          {"label": "機能調査\\n拡張", "group": "調査研究", "tasks": [
+              {"start": 2, "end": 5,  "label": "調査対象機能の抽出", "color": "self"},
+              {"start": 6, "end": 10, "label": "機能の選定",          "color": "self"},
+          ]},
+          # グループなしタスク行
+          {"label": "資料作成", "tasks": [
+              {"start": 18, "end": 20, "label": "報告書作成", "color": "joint"},
+          ]},
+        ]
+
+    legend: {"弊社作業": "self", "貴社作業": "client", "合同": "joint"}
+    bar_colors: {"self": "accent", "client": "accent3", "joint": "accent2"}
+    """
+    if bar_colors is None:
+        bar_colors = {
+            "self":   C["accent"],
+            "client": C["accent3"],
+            "joint":  C["accent2"],
+        }
+
+    # 総カラム数
+    def _period_cols(p):
+        return len(p.get("subperiods", [])) or p.get("cols", 1)
+    total_cols = sum(_period_cols(p) for p in periods)
+
+    # グループ列の有無
+    has_groups = any(r.get("group") for r in rows)
+    gw = group_w if has_groups else 0.0
+
+    header_h1 = 0.30   # 月ヘッダー高
+    header_h2 = 0.24   # 週サブヘッダー高
+    has_sub = any(p.get("subperiods") for p in periods)
+    header_h = header_h1 + (header_h2 if has_sub else 0)
+
+    content_x = x + label_w + gw
+    content_w = w - label_w - gw
+    col_w = content_w / total_cols
+
+    shapes = []
+
+    # ---- 空白の左上コーナー ----
+    shapes.append(add_rect(slide, x, y, label_w + gw, header_h, fill="bgLight", border="border"))
+
+    # ---- 月ヘッダー ----
+    cx = content_x
+    for p in periods:
+        n = _period_cols(p)
+        pw = col_w * n
+        shapes.append(add_rect(slide, cx, y, pw, header_h1, fill=header_color))
+        shapes.append(add_text(slide, cx + 0.04, y + 0.04, pw - 0.06, header_h1 - 0.06,
+                               p["label"], style="caption", align="center",
+                               color="white", bold=True))
+        cx += pw
+
+    # ---- サブ期間（週）ヘッダー ----
+    if has_sub:
+        cx = content_x
+        for p in periods:
+            for sub in p.get("subperiods", []):
+                shapes.append(add_rect(slide, cx, y + header_h1, col_w, header_h2,
+                                       fill="bgLight", border="border"))
+                shapes.append(add_text(slide, cx + 0.01, y + header_h1 + 0.02,
+                                       col_w - 0.02, header_h2 - 0.04,
+                                       sub, style="caption", align="center",
+                                       color="textMuted", font_size=9))
+                cx += col_w
+
+    # ---- グループラベル（縦結合） ----
+    if has_groups:
+        i = 0
+        while i < len(rows):
+            g = rows[i].get("group")
+            if g:
+                j = i + 1
+                while j < len(rows) and rows[j].get("group") == g:
+                    j += 1
+                gy = y + header_h + i * row_h
+                gh = (j - i) * row_h
+                shapes.append(add_rect(slide, x + label_w, gy, gw, gh,
+                                       fill=header_color, border=None))
+                # テキスト：中央に縦書き風（短い場合）/ 横書き小フォント
+                shapes.append(add_text(slide, x + label_w + 0.02, gy + gh / 2 - 0.25,
+                                       gw - 0.04, 0.5, g,
+                                       style="caption", align="center",
+                                       color="white", bold=True, font_size=9))
+                i = j
+            else:
+                i += 1
+
+    # ---- 行ラベル + グリッド + バー + マイルストン ----
+    for i, row in enumerate(rows):
+        ry = y + header_h + i * row_h
+
+        # 行ラベル
+        shapes.append(add_rect(slide, x, ry, label_w, row_h,
+                               fill="bgLight", border="border"))
+        shapes.append(add_text(slide, x + 0.07, ry + 0.04, label_w - 0.1, row_h - 0.06,
+                               row["label"], style="caption", align="left",
+                               font_size=9, bold=False))
+
+        # グリッド背景
+        row_bg = "bg" if i % 2 == 0 else "rowAlt"
+        shapes.append(add_rect(slide, content_x, ry, content_w, row_h,
+                               fill=row_bg, border="border"))
+
+        # 縦グリッド線
+        for ci in range(1, total_cols):
+            lx = content_x + ci * col_w
+            shapes.append(add_line(slide, lx, ry, lx, ry + row_h,
+                                   color="border", width=0.3))
+
+        # タスクバー
+        for task in row.get("tasks", []):
+            s = max(0, task["start"])
+            e = min(total_cols - 1, task["end"])  # 範囲外クランプ
+            bar_x = content_x + s * col_w + 0.03
+            bar_w = (e - s + 1) * col_w - 0.06
+            bar_y = ry + row_h * 0.18
+            bar_h = row_h * 0.64
+            tc = task.get("color", "self")
+            fill = bar_colors.get(tc, tc)
+            shapes.append(add_rect(slide, bar_x, bar_y, bar_w, bar_h, fill=fill))
+            if task.get("label") and bar_w > 0.3:
+                shapes.append(add_text(slide, bar_x + 0.05, bar_y + 0.02,
+                                       bar_w - 0.08, bar_h - 0.04,
+                                       task["label"], style="caption",
+                                       align="left", color="white", font_size=9))
+
+        # マイルストン（▼マーカー）
+        for ms in row.get("milestones", []):
+            col = max(0, min(total_cols - 1, ms["col"]))  # 範囲外クランプ
+            mx = content_x + (col + 0.5) * col_w
+            shapes.append(add_text(slide, mx - 0.18, ry + 0.01, 0.36, row_h * 0.45,
+                                   "▼", style="caption", align="center",
+                                   color=header_color, bold=True, font_size=10))
+            if ms.get("label"):
+                lbl_w = max(1.0, len(ms["label"]) * 0.13)
+                # 右端クリップ
+                lbl_x = max(x, min(mx - lbl_w / 2, x + w - lbl_w))
+                shapes.append(add_text(slide, lbl_x, ry + row_h * 0.42,
+                                       lbl_w, row_h * 0.55,
+                                       ms["label"], style="caption",
+                                       align="center", color="text",
+                                       font_size=9))
+
+    # ---- 凡例 ----
+    if legend:
+        n_items = len(legend)
+        lw = 1.7
+        lh = 0.22 * n_items + 0.18
+        legend_x = content_x + content_w - lw - 0.1
+        legend_y = y + header_h + 0.08
+        shapes.append(add_rounded_rect(slide, legend_x, legend_y, lw, lh,
+                                       fill="bg", border="border"))
+        shapes.append(add_text(slide, legend_x + 0.1, legend_y + 0.03, lw - 0.2, 0.18,
+                               "凡例：", style="caption", color="textMuted",
+                               font_size=9, bold=True))
+        for li, (lbl, color_key) in enumerate(legend.items()):
+            ly = legend_y + 0.18 + li * 0.22
+            fill = bar_colors.get(color_key, color_key)
+            shapes.append(add_rect(slide, legend_x + 0.1, ly + 0.03, 0.22, 0.14, fill=fill))
+            shapes.append(add_text(slide, legend_x + 0.38, ly, lw - 0.48, 0.22,
+                                   lbl, style="caption", color="text", font_size=9))
+
+    return shapes
+
+
 def add_bar_chart_img(
     slide,
     x: float, y: float, w: float, h: float,
