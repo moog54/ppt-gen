@@ -117,8 +117,9 @@ cd /home/moog/work/ppt-gen
 
 1. **pptx native table 禁止** → `add_table_shapes()` を使う
 2. **游ゴシック禁止** → `Meiryo UI`（自動設定）
-3. **コンテンツははみ出さない** → `x + w ≤ 12.9` / `y + h ≤ 7.0`
-4. **コンテンツは CONTENT_TOP (1.4") 以下** → `y = CONTENT_TOP + 0.2 = 1.6` から開始
+3. **角丸四角禁止** → `add_rounded_rect()` は使わず `add_rect()` を使う
+4. **コンテンツははみ出さない** → `x + w ≤ 12.9` / `y + h ≤ 7.0`
+5. **コンテンツは CONTENT_TOP (1.4") 以下** → `y = CONTENT_TOP + 0.2 = 1.6` から開始
 
 ---
 
