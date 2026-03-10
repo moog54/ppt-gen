@@ -9,10 +9,10 @@
 
 ```bash
 # Python venv
-/home/moog/hr_venv/bin/python
+uv run python
 
 # 作業ディレクトリ
-cd /mnt/c/Users/moogs/work/ppt-gen
+cd /home/moog/work/ppt-gen
 ```
 
 ---
@@ -21,7 +21,7 @@ cd /mnt/c/Users/moogs/work/ppt-gen
 
 ```python
 import sys
-sys.path.insert(0, "/mnt/c/Users/moogs/work/ppt-gen")
+sys.path.insert(0, "/home/moog/work/ppt-gen")
 from lib import *
 
 # 1. SlideBuilder 初期化
