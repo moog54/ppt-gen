@@ -342,7 +342,7 @@ def add_card(
     bg: str = "bg",
 ) -> tuple:
     """タイトル+本文カードを追加する"""
-    rect = add_rounded_rect(slide, x, y, w, h, fill=bg, border="border")
+    rect = add_rect(slide, x, y, w, h, fill=bg, border="border")
     shapes = [rect]
     acc = accent or "accent"
     # アクセントバー（左端）
@@ -367,7 +367,7 @@ def add_pill(
     """ピル（小さな丸みのあるバッジ）を追加する"""
     w = max(1.2, len(text) * 0.15 + 0.4)
     h = 0.35
-    rect = add_rounded_rect(slide, x, y, w, h, fill=color)
+    rect = add_rect(slide, x, y, w, h, fill=color)
     t = add_text(slide, x + 0.05, y + 0.03, w - 0.1, h - 0.06, text,
                  style="small", align="center", color=text_color, bold=True)
     return rect, t
@@ -398,7 +398,7 @@ def add_quote(
     """引用ブロックを追加する"""
     h = 1.0 + len(text) / 80 * 0.3
     shapes = []
-    rect = add_rounded_rect(slide, x, y, w, h, fill=bg)
+    rect = add_rect(slide, x, y, w, h, fill=bg)
     shapes.append(rect)
     bar = add_rect(slide, x, y, 0.08, h, fill="accent")
     shapes.append(bar)
@@ -436,7 +436,7 @@ def add_kpi_row(
     shapes = []
     for i, item in enumerate(items):
         cx = x_start + i * (card_w + gap)
-        rect = add_rounded_rect(slide, cx, y, card_w, card_h, fill="bg", border="border")
+        rect = add_rect(slide, cx, y, card_w, card_h, fill="bg", border="border")
         shapes.append(rect)
         acc = item.get("color", "accent")
         bar = add_rect(slide, cx, y, card_w, 0.07, fill=acc)
@@ -531,7 +531,7 @@ def add_comparison(
     ]):
         cx = x_start + idx * (col_w + gap)
         h = 0.5 + len(items) * 0.45 + 0.2
-        rect = add_rounded_rect(slide, cx, y, col_w, h, fill="bgLight", border="border")
+        rect = add_rect(slide, cx, y, col_w, h, fill="bgLight", border="border")
         shapes.append(rect)
         bar = add_rect(slide, cx, y, col_w, 0.08, fill=color)
         shapes.append(bar)
@@ -607,7 +607,7 @@ def add_content_box_table(
         # バッジ
         badge_w = min(hw * 0.7, 1.5)
         badge_x = hx + (hw - badge_w) / 2
-        badge = add_rounded_rect(slide, badge_x, y - 0.3, badge_w, 0.28, fill=header_color)
+        badge = add_rect(slide, badge_x, y - 0.3, badge_w, 0.28, fill=header_color)
         shapes.append(badge)
         shapes.append(add_text(slide, badge_x + 0.05, y - 0.28, badge_w - 0.1, 0.24,
                                highlight_label, style="caption", align="center",
@@ -616,7 +616,7 @@ def add_content_box_table(
     # ---- 左ラベル列 ----
     if show_labels:
         # ラベル列ヘッダー（空白）
-        shapes.append(add_rounded_rect(slide, x, y, label_w, header_h, fill="bgLight", border="border"))
+        shapes.append(add_rect(slide, x, y, label_w, header_h, fill="bgLight", border="border"))
         # 各行ラベル
         for i, row in enumerate(rows):
             ry = y + header_h + row_h * i
@@ -637,7 +637,7 @@ def add_content_box_table(
         h_border = header_color if is_highlight else "border"
 
         # ヘッダーボックス
-        shapes.append(add_rounded_rect(
+        shapes.append(add_rect(
             slide, cx, y, cw, header_h,
             fill=h_color if is_highlight else "bgLight",
             border=h_color if is_highlight else "border",
@@ -854,7 +854,7 @@ def add_gantt(
         lh = 0.22 * n_items + 0.18
         legend_x = content_x + content_w - lw - 0.1
         legend_y = y + header_h + 0.08
-        shapes.append(add_rounded_rect(slide, legend_x, legend_y, lw, lh,
+        shapes.append(add_rect(slide, legend_x, legend_y, lw, lh,
                                        fill="bg", border="border"))
         shapes.append(add_text(slide, legend_x + 0.1, legend_y + 0.03, lw - 0.2, 0.18,
                                "凡例：", style="caption", color="textMuted",
@@ -945,7 +945,7 @@ def add_flow_row(
 
     for i, step in enumerate(steps):
         cx = x_start + i * (box_w + arrow_w)
-        rect = add_rounded_rect(slide, cx, y, box_w, box_h, fill=color)
+        rect = add_rect(slide, cx, y, box_w, box_h, fill=color)
         shapes.append(rect)
         shapes.append(add_text(slide, cx + 0.05, y + 0.05, box_w - 0.1, box_h - 0.1,
                                step, style="body", align="center", color="white", bold=True))
@@ -1012,7 +1012,7 @@ def add_agenda(
         iy = y_start + i * item_h
         bg = color if is_current else "bgLight"
         tc = "white" if is_current else "text"
-        rect = add_rounded_rect(slide, x_start, iy, w, item_h - 0.1, fill=bg)
+        rect = add_rect(slide, x_start, iy, w, item_h - 0.1, fill=bg)
         shapes.append(rect)
         num_bg = "white" if is_current else color
         num_tc = color if is_current else "white"
